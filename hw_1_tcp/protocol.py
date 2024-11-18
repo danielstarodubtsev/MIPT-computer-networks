@@ -60,6 +60,7 @@ class MyTCPProtocol(UDPBasedProtocol):
         self.udp_socket.settimeout(timeout)
 
     def send(self, data: bytes):
+        # комментарий от проверяющего: лучше обойтись целочисленным делением
         iterations = math.ceil(len(data) / self.packet_size)
         self.current_timeout = self.default_timeout if iterations == 1 else self.default_timeout2
 
@@ -88,6 +89,7 @@ class MyTCPProtocol(UDPBasedProtocol):
         return len(data)
 
     def recv(self, n: int):
+        # комментарий от проверяющего: данные действия с буфером должны быть внутри большого цикла while
         while len(self.buffer) > 0 and self.buffer[0][0] < self.receive_index:
             self.buffer.pop(0)
         
@@ -102,6 +104,7 @@ class MyTCPProtocol(UDPBasedProtocol):
             success = False
 
             while not success:
+                # комментарий от проверяющего: этот внутренний while, по сути, не нужен
                 cur_data = self.recvfrom(min(self.packet_size, n) + 5)
                 cur_seq = bytestoint32(cur_data[1:5])
 
